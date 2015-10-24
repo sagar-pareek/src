@@ -1,0 +1,41 @@
+<apex:page standardController="Lead" extensions="ContactUpdateController" docType="html-5.0">
+    <style>
+        label { margin-right: 5px; display: inline-block; width: 150px; }
+        .requiredInput { display: inline-block; height: initial !important; }
+        td.dataCol { width: 100%; }
+    </style>
+    <apex:form id="changeEnrichmentForm">
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!UpdateContact}"/>
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="Answer the questions">
+                <apex:pageBlockSectionItem >
+                    <apex:outputPanel >
+
+                        <apex:outputLabel value="Company" />
+                        <apex:inputText value="{!company}" /><br /><br />
+
+                        <apex:outputLabel value="City" />
+                        <apex:inputText value="{!city}" /><br /><br />
+
+                        <apex:outputLabel value="Postal Code" />
+                        <apex:inputText value="{!postCode}" /><br /><br />
+
+                        <apex:outputLabel value="Phone" />
+                        <apex:inputText value="{!phone}" /><br /><br />
+                        
+                        <apex:outputLabel value="Mobile Phone" />
+                        <apex:inputText value="{!mobilePhone}" /><br /><br />
+
+                        <apex:outputLabel value="Opt out of emails" />
+                        <apex:inputCheckbox value="{!optOutOfEmails}" /><br /><br />
+
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection> 
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

@@ -1,0 +1,154 @@
+<apex:page standardController="lead" extensions="LeadVisualizerController" sidebar="false" showHeader="false">
+    <apex:form >
+    <html>
+        <head>
+            <style type="text/css">
+                table, th, td {
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                               
+                }
+            </style>
+        </head>
+        <body style="text-align:center;">
+            <table style="width:100%;">
+                <!-- table header starts here --->
+                <tr>
+                    <td bgcolor="#686868" style="color:white;">
+                        Object
+                    </td>
+                    <td>
+                        MQL
+                    </td>
+                    <td style="{!if(sal==false,'background-color:#C0C0C0','')}">
+                        SAL
+                   </td>
+                   <td style="{!if(sql==false,'background-color:#C0C0C0','')}">
+                       SQL 
+                   </td>
+                   <td style="{!if(opp==false,'background-color:#C0C0C0','')}">
+                       Opportunity
+                   </td>
+                   <td style="{!if(sub==false,'background-color:#C0C0C0','')}">
+                       Subscription
+                   </td>
+                </tr>
+                <!--- table header ends here--->
+                <tr>
+                    <td bgcolor="#686868" style="color:white;">
+                        Owner &amp; Age
+                    </td>
+                    <td>
+                        <!-- MQL Owner -->
+                       <apex:outputPanel rendered="{!if(ownerOfMQL!=null ,true,false)}">{!ownerOfMQL} -</apex:outputPanel>
+                       <apex:outputPanel rendered="{!if(l.DaysInMQL__c!=null  ,true,false)}">  {!l.DaysInMQL__c} days </apex:outputPanel>
+                    </td>
+                    <td style="{!if(sal==false,'background-color:#C0C0C0','')}">
+                        <!--SAL Owner -->
+                         <apex:outputPanel rendered="{!if(ownerOfSAL!=null,true,false)}"> {!ownerOfSAL} - </apex:outputPanel>
+                         <apex:outputPanel rendered="{!if(l.DaysInSAL__c!=null ,true,false)}"> {!l.DaysInSAL__c} days </apex:outputPanel>
+                        </td>
+                    <td style="{!if(sql==false,'background-color:#C0C0C0','')}">
+                        <!---SQL Owner-->
+                        <apex:outputPanel rendered="{!if(ownerOfSQL!=null ,true,false)}"> {!ownerOfSQL} - </apex:outputPanel>
+                         <apex:outputPanel rendered="{!if(l.DaysInSQL__c!=null,true,false)}"> {!l.DaysInSQL__c} days </apex:outputPanel>
+                    </td>
+                    <td style="{!if(opp==false,'background-color:#C0C0C0','')}">
+                        <!--Opportunity Owner --->
+                        <apex:outputPanel rendered="{!if(l.DaysInSRL__c!=null && opportunityOwner.Name!=null ,true,false)}"> {!opportunityOwner.Name} -  days </apex:outputPanel>
+                        
+                    </td>
+                    <td style="{!if(sub==false,'background-color:#C0C0C0','')}">
+                        <!-- Subscription Owner -->
+                        <apex:outputPanel rendered="{!if(l.DaysInSDL__c!=null,true,false)}"> {!l.DaysInSDL__c} days </apex:outputPanel>
+                       
+                    </td>
+                </tr>
+                <tr>
+                   <td bgcolor="#686868" style="color:white;">
+                        Status/Stage
+                    </td>
+                    <td style="{!if((l.Status=='Open' || l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') || (l.Rejected__c==true && l.Stage__c=='SRL') && (l.Stage__c='SAL'|| l.Stage__c='SQL' || l.Stage__c='MQL' ),'background-color:#CCFFCC',if(l.Status=='Unresponsive' && l.Stage__c='SAL','background-color:#FF9999',if(l.Stage__c='SDL','background-color:#FF9999','')))}">
+                        Open
+                    </td>
+                    <td>
+                        <!--  inner table for SAL sub levels -->
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="{!if((l.Status=='Open' || l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') && (l.Stage__c='SAL'|| l.Stage__c='SQL' ),'background-color:#CCFFCC',if(l.Status=='Unresponsive' && l.Stage__c='SAL','background-color:#FF9999',if(l.Stage__c='SDL','background-color:#FF9999','background-color:#C0C0C0')))}">
+                                    Open
+                                </td>
+                                <td style="{!if((l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') && (l.Stage__c='SAL'|| l.Stage__c='SQL' || l.Status=='Converted'),'background-color:#CCFFCC',if(l.Status=='Unresponsive' && l.Stage__c='SAL','background-color:#FF9999',if(l.Stage__c='SDL','background-color:#FF9999','background-color:#C0C0C0')))}">
+                                    Contacted
+                                </td>
+                                <td style="{!if((l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted')  && (l.Stage__c='SAL'|| l.Stage__c='SQL'),'background-color:#CCFFCC',if(l.Stage__c='SDL','background-color:#FF9999','background-color:#C0C0C0'))}">
+                                    Interested
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- inner table ends -->
+                    </td>
+                    <td style="{!if((l.Status=='Qualified' || l.Status=='Converted')  && (l.Stage__c='SQL'),'background-color:#CCFFCC',if(l.Stage__c='SDL','background-color:#FF9999',if(sql==false,'background-color:#C0C0C0','')))}">
+                        Qualified
+                    </td>
+                    <td>
+                        <!--  inner table for opportunity sub levels -->
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="{!if(o.StageName='Value Proposition' || o.StageName='Demo' || o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review','background-color:#CCFFCC','background-color:#C0C0C0')}">
+                                    Value Proposition
+                                </td>
+                                <td style="{!if( o.StageName='Demo' || o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review','background-color:#CCFFCC','background-color:#C0C0C0')}">
+                                    Demo
+                                </td>
+                                <td style="{!if( o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review','background-color:#CCFFCC','background-color:#C0C0C0')}">
+                                    Proposal
+                                </td>
+                                <td style="{!if(o.StageName='Negotiation/Review','background-color:#CCFFCC','background-color:#C0C0C0')}">
+                                    Negotiation
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <!-- inner table ends --> 
+                    </td>
+                    <td style="{!if(sub==false,'background-color:#C0C0C0','')}">
+                        <!-- ID and MMR--->
+                    </td>
+                </tr>
+                <tr>
+                   <td bgcolor="#686868" style="color:white;">
+                       Rejection 
+                    </td>
+                    <td>
+                        &nbsp;  
+                    </td>
+                    <td>
+                        <!--inner table for SAL rejection row -->
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="{!if(l.Rejected__c==true && l.Stage__c=='SRL' && mql==true,'background-color:#FF9999','background-color:#C0C0C0')}">
+                                    SRL    
+                                </td>
+                                <td style="{!if(l.Status=='Unresponsive' && l.Stage__c='SAL','background-color:#FF9999','background-color:#C0C0C0')}">
+                                    Unresponsive
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- inner table ends-->
+                    </td>
+                    <td style="background-color:#C0C0C0">
+                        SRL
+                    </td>
+                    <td style="{!if(l.Stage__c=='SDL','background-color:#FF9999','background-color:#C0C0C0')}">
+                        SDL
+                    </td>
+                    <td style="{!if(sub==false,'background-color:#C0C0C0','')}">
+                        Lost
+                    </td>
+                </tr>
+            </table>
+        </body>
+    </html>
+    </apex:form>
+</apex:page>

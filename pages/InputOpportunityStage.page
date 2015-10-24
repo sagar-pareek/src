@@ -1,0 +1,45 @@
+<apex:page standardController="Lead" extensions="ConvertToOpportunityController" docType="html-5.0">
+    <style>
+        label { margin-right: 5px; display: inline-block; width: 150px; vertical-aligh: top; }
+        .requiredInput, .condRequiredInput { display: inline-block; height: initial !important; }
+        td.dataCol { width: 100%; }
+        select.listing { width: 140px; height: 200px; overflow: scroll; }
+    </style>
+    <apex:form id="convertToOpportunityForm">
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Convert To Opportunity" action="{!ConvertToOpportunity}"/>
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="Select Opportunity Type">
+                <apex:pageBlockSectionItem >
+                    <apex:outputPanel >
+
+						<apex:outputLabel value="Expected amount" />
+                        <apex:inputField value="{!opportunity.Amount}" required="true" /><br/><br/>
+
+                        <apex:outputLabel value="Opportunity Type" />
+                        <apex:inputField value="{!opportunity.Type}" required="true" /><br/><br/>
+
+                        <apex:outputLabel value="Target Product" />
+                        <apex:inputField value="{!opportunity.Product__c}" required="true" /><br/><br/>
+
+                        <apex:outputLabel value="Target Plan" />
+                        <apex:inputField value="{!opportunity.Plan__c}" required="true" /><br/><br/>
+
+                        <apex:outputLabel value="Expected close date" />
+                        <apex:inputField value="{!opportunity.CloseDate}" required="true" /><br/><br/>
+
+                        <apex:outputLabel value="Competitors" />
+                        <apex:selectList styleClass="listing" multiselect="true" value="{!opportunityCompetitors}">
+                            <apex:selectOptions value="{!allCompetitors}" />
+                        </apex:selectList>    
+                        <br/><br/>
+
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection> 
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

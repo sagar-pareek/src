@@ -1,0 +1,21 @@
+<apex:page standardController="Opportunity" extensions="OpportunityButtonRenderer" docType="html-5.0">
+    <style>
+        label { margin-right: 5px; display: inline-block; width: 150px; vertical-aligh: top; }
+        .requiredInput, .condRequiredInput { display: inline-block; height: initial !important; }
+        td.dataCol { width: 100%; }
+    </style>
+    <apex:form id="markOpportunityLostForm">
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Mark As Lost" action="{!MarkAsLost}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:outputLabel value="Reason for loss" />
+            <apex:selectList multiselect="false" size="1" value="{!lostReason}" required="true">
+                <apex:selectOptions value="{!LostReasonList}" />
+            </apex:selectList>
+            
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

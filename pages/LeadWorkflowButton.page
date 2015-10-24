@@ -1,0 +1,137 @@
+<apex:page standardController="Lead" extensions="LeadButtonRenderer" id="leadButtonWorkflowPage">
+
+    <style>
+        input.btn { margin-right: 5px; }
+        body { display: flex; }
+    </style>
+    <script type="text/javaScript">
+    	function unresponsiveErrorMessage(){
+            if({!flagUnresponsive}){
+        		alert('One call and one email is required before marking this lead as unresponsive.');
+                cannotmarkUnresponsive();
+        	}
+            else{
+            	markUnresponsive();
+            }
+        }
+    </script>
+    <apex:form target="_top" style="margin:auto; margin-left: calc(30% + 2px);">
+		
+        <apex:commandButton title="Accept the lead." 
+            id="AcceptOpenLead"
+            value="Accept" 
+            action="{!AcceptOpenLead}" 
+            rendered="{!CanAcceptOpenLead}" />
+
+        <apex:commandButton title="Reject open lead." 
+            id="RejectOpenLead"
+            value="Reject" 
+            action="{!RejectOpenLead}" 
+            rendered="{!CanRejectOpenLead}" />
+
+        <apex:commandButton title="Mark lead as contacted." 
+            id="MarkLeadContacted"
+            value="Contact Established" 
+            action="{!MarkLeadContacted}" 
+            rendered="{!CanMarkLeadContacted}" />
+
+        <apex:commandButton title="Set territory on lead" 
+            id="SetTerritory"
+            value="Set Territory" 
+            action="{!UrlFor('/apex/InputLeadTerritory', null, ['id' = Lead.Id])}" 
+            rendered="{!CanSetTerritory}" />
+
+        <apex:commandButton title="Gather lead qualification data." 
+            id="QualifyLead"
+            value="Qualify" 
+            action="{!UrlFor('/apex/InputLeadQualification', null, ['id' = Lead.Id])}" 
+            rendered="{!CanQualifyLead}" />
+
+        <apex:commandButton title="Gather lead enrichment data." 
+            id="EnrichLead"
+            value="Enrich" 
+            action="{!UrlFor('/apex/InputLeadEnrichment', null, ['id' = Lead.Id])}" 
+            rendered="{!CanEnrichLead}" />
+
+        <apex:commandButton title="Update contact details." 
+            id="UpdateContact"
+            value="Update Contact" 
+            action="{!UrlFor('/apex/InputLeadContact', null, ['id' = Lead.Id])}" 
+            rendered="{!CanUpdateContact}" />
+
+        <apex:commandButton title="Mark lead interested." 
+            id="MarkLeadInterested"
+            value="Interested"
+            action="{!MarkLeadInterested}" 
+            rendered="{!CanMarkLeadInterested}"
+            disabled="{!QualificationAnsweresAreInvalid}" />
+		<apex:actionFunction name="cannotmarkUnresponsive" action="{!CannotMarkLeadUnresponsive}"/> 
+        <apex:actionFunction name="markUnresponsive" action="{!MarkLeadUnresponsive}" />
+        <apex:commandButton title="Mark lead unresponsive." 
+            id="MarkLeadUnresponsive"
+            value="Unresponsive" 
+            rendered="{!CanMarkLeadUnresponsive}" 
+            onclick="unresponsiveErrorMessage()" reRender="leadButtonWorkflowPage" />
+
+        <apex:commandButton title="Mark lead responsive." 
+            id="MarkLeadResponsive"
+            value="Responsive" 
+            action="{!MarkLeadResponsive}" 
+            rendered="{!CanMarkLeadResponsive}" />
+
+        <apex:commandButton title="Reject lead." 
+            id="RejectAcceptedLead"
+            value="Reject" 
+            action="{!RejectAcceptedLead}" 
+            rendered="{!CanRejectAcceptedLead}" />
+
+        <apex:commandButton title="Accept interested lead." 
+            id="AcceptInterestedLead"
+            value="Accept" 
+            action="{!AcceptInterestedLead}" 
+            rendered="{!CanAcceptInterestedLead}" />
+
+        <apex:commandButton title="Reject interested lead." 
+            id="RejectInterestedLead"
+            value="Reject"
+            action="{!RejectInterestedLead}" 
+            rendered="{!CanRejectInterestedLead}" />
+
+        <apex:commandButton title="Return lead to ADM." 
+            id="ReturnInterestedLead"
+            value="Return"
+            action="{!ReturnInterestedLead}" 
+            rendered="{!CanReturnInterestedLead}" />
+
+        <apex:commandButton title="Convert the lead into an opportunity." 
+            id="ConvertToOpportunity"
+            value="Opportunity"
+            action="{!Urlfor('/apex/InputOpportunityStage', null, ['id' = Lead.Id])}" 
+            rendered="{!CanConvertToOpportunity}" />
+
+        <apex:commandButton title="Reject the lead." 
+            id="RejectQualifiedLead"
+            value="Reject"
+            action="{!RejectQualifiedLead}" 
+            rendered="{!CanRejectQualifiedLead}" />
+
+        <apex:commandButton title="Close the lead." 
+            id="CloseQualifiedLead"
+            value="Close"
+            action="{!CloseQualifiedLead}" 
+            rendered="{!CanCloseQualifiedLead}" />
+        
+        <apex:commandButton title="Update Instance details."
+            id="UpdateInstanceDetails"
+            value="Update Instance"
+            action="{!UrlFor('/apex/InputLeadInstanceDetails', null, ['id' = Lead.Id])}"
+            rendered="{!CanUpdateInstanceDetails}" />
+
+        <apex:commandButton title="Reopen this lead."
+            id="ReopenLead"
+            value="Reopen"
+            action="{!ReopenLead}"
+            rendered="{!CanReopenLead}" />
+
+    </apex:form>
+</apex:page>
