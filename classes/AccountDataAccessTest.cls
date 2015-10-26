@@ -14,6 +14,138 @@ public class AccountDataAccessTest
 
         System.assert(account.Id == foundAccount.Id);
     }
+    
+    
+    public static TestMethod void AccountDeleteTest()  //for two records OnAccountDelete Trigger
+    {
+        Account account1 = new Account(
+            name = 'someone1@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account1;
+        
+        Account account2 = new Account(
+            name = 'someone2@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account2;
+        
+       List<Account> accList = new List<Account>();
+       accList.add(account1);
+       accList.add(account2);
+       delete accList;
+        
+        
+        
+    }
+    
+    public static TestMethod void AccountDeleteTest2()  //for 10 records OnAccountDelete Trigger
+    {
+        Account account1 = new Account(
+            name = 'someone1@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account1;
+        
+        Account account2 = new Account(
+            name = 'someone2@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account2;
+        
+        Account account3 = new Account(
+            name = 'someone3@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account3;
+        
+        Account account4 = new Account(
+            name = 'someone4@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account4;
+        
+        Account account5 = new Account(
+            name = 'someone5@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account5;
+        
+        Account account6 = new Account(
+            name = 'someone6@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account6;
+        
+             Account account7 = new Account(
+            name = 'someone7@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account7;
+        
+        Account account8 = new Account(
+            name = 'someone8@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account8;
+        
+        Account account9 = new Account(
+            name = 'someone9@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account9;
+        
+        Account account10 = new Account(
+            name = 'someone10@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account10;
+        
+        Account account11 = new Account(
+            name = 'someone11@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+
+        insert account11;
+        
+        Account account12 = new Account(
+            name = 'someone12@mail.com',
+            OwnerId = '00510000004s2Hz'
+        );
+        
+        insert account12;
+       
+       List<Account> accList = new List<Account>();
+       accList.add(account1);
+       accList.add(account2);
+       accList.add(account3);
+       accList.add(account4);
+       accList.add(account5);
+       accList.add(account6);
+       accList.add(account7);
+       accList.add(account8);
+       accList.add(account9);
+       accList.add(account10);
+       accList.add(account11);
+       accList.add(account12);
+       delete accList;
+        
+        
+        
+    }
+
 
     public static TestMethod void ThrowExceptionOnError()
     {
