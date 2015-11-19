@@ -18,7 +18,7 @@ public without sharing class UserDataAccess
         
         try
         {
-            User user = [SELECT Id, Name, KA_LeadCounter__c , KA_Weightage__c, IsActive, ManagerId, Profile.Name FROM User WHERE id = :userId LIMIT 1];
+            User user = [SELECT Id, Name, KA_LeadCounter__c , KA_Weightage__c, IsActive, ManagerId, Profile.Name,userRoleId FROM User WHERE id = :userId LIMIT 1];
             
             usersCache.put(userId, user);
             
