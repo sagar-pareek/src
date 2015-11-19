@@ -1,4 +1,4 @@
-<apex:page standardController="Lead" extensions="ContactUpdateController" docType="html-5.0">
+<apex:page standardController="Lead"  docType="html-5.0">
     <style>
         label { margin-right: 5px; display: inline-block; width: 150px; }
         .requiredInput { display: inline-block; height: initial !important; }
@@ -8,7 +8,7 @@
         <apex:pageBlock >
             <apex:pageMessages />
             <apex:pageBlockButtons >
-                <apex:commandButton value="Save" action="{!UpdateContact}"/>
+                <apex:commandButton value="Save" action="{!save}"/>
             </apex:pageBlockButtons>
 
             <apex:pageBlockSection title="Answer the questions">
@@ -16,24 +16,44 @@
                     <apex:outputPanel >
 
                         <apex:outputLabel value="Company" />
-                        <apex:inputText value="{!company}" /><br /><br />
-
+                        <apex:inputText value="{!lead.company}" /><br /><br />
+                        
                         <apex:outputLabel value="City" />
-                        <apex:inputText value="{!city}" /><br /><br />
+                        <apex:inputText value="{!lead.city}" /><br /><br />
+                        
+                        <apex:outputLabel value="Country"/>
+                        <apex:inputField value="{!lead.CountryCode}"/> <br/><br/>
+                        
+                        <apex:outputLabel value="State"/>
+                        <apex:inputField value="{!lead.StateCode}"/><br/><br/>
+                        
+                        
+                        
+                        <apex:outputLabel value="Street" />
+                        <apex:inputText value="{!lead.Street}" /><br /><br />
 
                         <apex:outputLabel value="Postal Code" />
-                        <apex:inputText value="{!postCode}" /><br /><br />
+                        <apex:inputField value="{!lead.postalCode}" /><br /><br />
 
                         <apex:outputLabel value="Phone" />
-                        <apex:inputText value="{!phone}" /><br /><br />
+                        <apex:inputField value="{!lead.phone}" /><br /><br />
                         
                         <apex:outputLabel value="Mobile Phone" />
-                        <apex:inputText value="{!mobilePhone}" /><br /><br />
+                        <apex:inputField value="{!lead.MobilePhone}" /><br /><br />
 
                         <apex:outputLabel value="Opt out of emails" />
-                        <apex:inputCheckbox value="{!optOutOfEmails}" /><br /><br />
+                        <apex:inputField value="{!lead.HasOptedOutOfEmail}" /><br/><br/>
 
+                        
+                        
                     </apex:outputPanel>
+                    
+                    
+                    <!--- new markup ends here -->
+                    
+                    
+                    
+                    
                 </apex:pageBlockSectionItem>
             </apex:pageBlockSection> 
         </apex:pageBlock>

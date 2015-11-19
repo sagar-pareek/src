@@ -94,4 +94,17 @@ public class WebhookTest implements HttpCalloutMock
         delete contact;
         Test.stopTest();
     }
+    public static TestMethod void testAsJson(){
+        
+        account acc = new account();
+        acc.name='test';
+        
+        insert acc;
+        List<Account> accList = new List<account>();
+        accList.add(acc);
+        
+        
+        
+        Webhook.AsJson(accList,accList);
+    }
 }

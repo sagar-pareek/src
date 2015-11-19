@@ -1,6 +1,6 @@
 global without sharing class Slack
 {
-	global static final String WebhookDestination = 'https://hooks.slack.com/services/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';
+    global static final String WebhookDestination = 'https://hooks.slack.com/services/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';
     
     global static String PayloadAsString(String text)
     {
@@ -46,7 +46,7 @@ global without sharing class Slack
     {
         Set <List <Map <String, Object>>> attachmentFields = new Set <List <Map <String, Object>>> ();
 
-		for (Lead lead : leads)
+        for (Lead lead : leads)
         {
             List <Map <String, Object>> fields = new List <Map <String, Object>> ();
             
@@ -154,10 +154,7 @@ global without sharing class Slack
         {
             user = UserDataAccess.GetUser(userId);
         }
-        catch(UnderflowException noUserFound)
-        {
-            return '';
-        }
+        catch(UnderflowException noUserFound){return '';}
         
         return user.Name;
     }

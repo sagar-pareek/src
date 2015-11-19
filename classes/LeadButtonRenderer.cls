@@ -42,8 +42,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
     {
         return LeadStage.SAL.equals(lead.Stage__c) && (
             LeadStatus.OPEN.equals(lead.Status) ||
-            LeadStatus.CONTACTED.equals(lead.Status) ||
-            LeadStatus.UNRESPONSIVE.equals(lead.Status)
+            LeadStatus.CONTACTED.equals(lead.Status) || LeadStatus.UNRESPONSIVE.equals(lead.Status)
         );
     }
 
@@ -99,9 +98,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
             return false;
         }
         
-        return LeadStage.SAL.equals(lead.Stage__c) &&
-            LeadStatus.INTERESTED.equals(lead.Status) &&
-            SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
+        return LeadStage.SAL.equals(lead.Stage__c) && LeadStatus.INTERESTED.equals(lead.Status) && SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
     }
 
     public boolean GetCanRejectInterestedLead()
@@ -117,9 +114,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
             return false;
         }
         
-        return LeadStage.SAL.equals(lead.Stage__c) &&
-            LeadStatus.INTERESTED.equals(lead.Status) &&
-            SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
+        return LeadStage.SAL.equals(lead.Stage__c) && LeadStatus.INTERESTED.equals(lead.Status) && SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
     }
 
     public boolean GetCanReturnInterestedLead()
@@ -135,9 +130,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
             return false;
         }
 
-        return LeadStage.SAL.equals(lead.Stage__c) &&
-            LeadStatus.INTERESTED.equals(lead.Status) &&
-            SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
+        return LeadStage.SAL.equals(lead.Stage__c) && LeadStatus.INTERESTED.equals(lead.Status) && SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
     }
 
     public boolean GetCanConvertToOpportunity()
@@ -153,9 +146,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
             return false;
         }
         
-        return LeadStage.SQL.equals(lead.Stage__c) &&
-            LeadStatus.QUALIFIED.equals(lead.Status) &&
-            SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
+        return LeadStage.SQL.equals(lead.Stage__c) && LeadStatus.QUALIFIED.equals(lead.Status) && SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
     }
 
     public boolean GetCanRejectQualifiedLead()
@@ -171,9 +162,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
             return false;
         }
         
-        return LeadStage.SQL.equals(lead.Stage__c) &&
-            LeadStatus.QUALIFIED.equals(lead.Status) &&
-            SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
+        return LeadStage.SQL.equals(lead.Stage__c) && LeadStatus.QUALIFIED.equals(lead.Status) && SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
     }
     
     public boolean GetCanCloseQualifiedLead()
@@ -189,9 +178,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
             return false;
         }
         
-        return LeadStage.SQL.equals(lead.Stage__c) &&
-            LeadStatus.QUALIFIED.equals(lead.Status) &&
-            SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
+        return LeadStage.SQL.equals(lead.Stage__c) && LeadStatus.QUALIFIED.equals(lead.Status) && SeniorRoles().contains(TerritoryDataAccess.GetUserRole(user, leadTerritory));
     }
 
     public boolean GetCanUpdateInstanceDetails()
@@ -207,12 +194,7 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
     
     public boolean GetQualificationAnsweresAreInvalid()
     {
-        if(String.isBlank(lead.Budgeted__c)         || lead.Budgeted__c.equals('Unanswered')
-           || String.isBlank(lead.Role__c)          || lead.Role__c.equals('Unanswered')
-           || String.isBlank(lead.Authority__c)     || lead.Authority__c.equals('Unanswered')
-           || String.isBlank(lead.CurrentSystem__c) || lead.CurrentSystem__c.equals('Unanswered')
-           || String.isBlank(lead.UsedFor__c)       || lead.UsedFor__c.equals('Unanswered')
-           || String.isBlank(lead.Industry)         || lead.Industry.equals('Unanswered'))
+        if(String.isBlank(lead.Budgeted__c)         || lead.Budgeted__c.equals('Unanswered') || String.isBlank(lead.Role__c)          || lead.Role__c.equals('Unanswered') || String.isBlank(lead.Authority__c)     || lead.Authority__c.equals('Unanswered') || String.isBlank(lead.CurrentSystem__c) || lead.CurrentSystem__c.equals('Unanswered') || String.isBlank(lead.UsedFor__c)       || lead.UsedFor__c.equals('Unanswered') || String.isBlank(lead.Industry)         || lead.Industry.equals('Unanswered'))
         {
             return true;
         }
@@ -223,10 +205,6 @@ public without sharing class LeadButtonRenderer extends LeadFlowButtonHandler
 
     private Set <String> SeniorRoles()
     {
-        return new Set <String> {
-            RoleName.ISM,
-            RoleName.MNGR,
-            RoleName.RL
-        };
+        return new Set <String> { RoleName.ISM, RoleName.MNGR, RoleName.RL };
     }
 }

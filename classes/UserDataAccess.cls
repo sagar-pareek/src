@@ -24,10 +24,7 @@ public without sharing class UserDataAccess
             
             return user;
         }
-        catch(QueryException nullResultException)
-        {
-            throw new UnderflowException('No user exists with ID ' + userId);
-        }
+        catch(QueryException nullResultException) { throw new UnderflowException('No user exists with ID ' + userId); }
     }
 
     /**
@@ -61,10 +58,7 @@ public without sharing class UserDataAccess
 
             return roles.contains(pivot.RoleInTerritory2);
         }
-        catch(UnderflowException userDoesNotHaveRole)
-        {
-            return false;
-        }
+        catch(UnderflowException userDoesNotHaveRole){ return false; }
     }
 
     public static boolean MatchesUserRole(User user, String role, Territory2 territory)

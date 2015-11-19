@@ -1,4 +1,4 @@
-<apex:page standardController="Opportunity" extensions="OpportunityButtonRenderer" docType="html-5.0">
+<apex:page standardController="Opportunity" extensions="OpportunityButtonRenderer" docType="html-5.0" >
     <style>
         label { margin-right: 5px; display: inline-block; width: 150px; vertical-aligh: top; }
         .requiredInput, .condRequiredInput { display: inline-block; height: initial !important; }
@@ -10,11 +10,14 @@
             <apex:pageBlockButtons >
                 <apex:commandButton value="Mark As Lost" action="{!MarkAsLost}"/>
             </apex:pageBlockButtons>
-            
             <apex:outputLabel value="Reason for loss" />
             <apex:selectList multiselect="false" size="1" value="{!lostReason}" required="true">
                 <apex:selectOptions value="{!LostReasonList}" />
-            </apex:selectList>
+            </apex:selectList><br/><br/>
+            <apex:outputLabel value="Closed Lost Detail ( Why did we loose this Opportunity? What should we do differently next time when dealing with a similar customer? What can we improve to prevent such losses)" />
+            <apex:inputTextarea value="{!lostDetails}" required="true" rows="7" />
+          
+            
             
         </apex:pageBlock>
     </apex:form>    

@@ -43,9 +43,6 @@ public without sharing class Webhook
 
         HttpResponse response = WebDriver.send(request);
         
-        if(response.getStatusCode() != 200)
-        {
-            throw new RuntimeException('Webhook callout request was not handled properly by ' + url + ' - Error (' + response.getBody() + ') - Tried to send payload (' + Content + ')');
-        }
+        if(response.getStatusCode() != 200){throw new RuntimeException('Webhook callout request was not handled properly by ' + url + ' - Error (' + response.getBody() + ') - Tried to send payload (' + Content + ')');}
     }
 }

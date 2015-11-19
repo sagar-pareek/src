@@ -16,7 +16,7 @@
                 <apex:pageBlockSectionItem >
                     <apex:outputPanel >
 
-						<apex:outputLabel value="Expected amount" />
+                        <apex:outputLabel value="Expected amount" />
                         <apex:inputField value="{!opportunity.Amount}" required="true" /><br/><br/>
 
                         <apex:outputLabel value="Opportunity Type" />

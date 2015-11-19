@@ -1,4 +1,4 @@
-public class LeadVisualizerController {
+public class OpportunityVisualizerController {
     
     public lead ld{get;set;}
     public lead l {get;set;}
@@ -19,12 +19,13 @@ public class LeadVisualizerController {
     public Boolean opp {get;set;}
     public Boolean sub {get;set;} 
     
-    public LeadVisualizerController(ApexPages.StandardController controller) {
+    public OpportunityVisualizerController(ApexPages.StandardController controller) {
+           try{
            opportunityOwner = new user();
-           ld = (Lead)controller.getRecord();
+           o = (Opportunity)controller.getRecord();
            listLeadHistory = new List<LeadHistory>();
-           l =[select id,Stage__c,Rejected__c,Status,DaysInMQL__c,DaysInSAL__c,DaysInSQL__c,DaysInSRL__c,DaysInSDL__c,ConvertedOpportunityId,OwnerId,unresponsive__c from lead where id=:ld.id limit 1];
-           listLeadHistory = [SELECT CreatedDate,Field,Id,IsDeleted,LeadId,OldValue,NewValue FROM LeadHistory where  leadid=:ld.id  ORDER BY createdDate  ]; 
+           l =[select id,Stage__c,CreatedDate,Rejected__c,Status,DaysInMQL__c,DaysInSAL__c,DaysInSQL__c,DaysInSRL__c,DaysInSDL__c,ConvertedOpportunityId,OwnerId from lead where ConvertedOpportunityId=:o.id limit 1];
+           listLeadHistory = [SELECT CreatedDate,Field,Id,IsDeleted,LeadId,OldValue,NewValue FROM LeadHistory where  leadid=:l.id  ORDER BY createdDate  ]; 
            StageAndCreatedDateMap = new Map<String,DateTime>();
            opportunityOwner = new user();
            
@@ -76,9 +77,11 @@ public class LeadVisualizerController {
                  
                              
            } 
+           
             System.debug('MQL2SAL MAP'+StageAndCreatedDateMap);
             System.debug('leadhist'+listLeadHistory);
             System.debug('the value of mql2sal is'+StageAndCreatedDateMap.get('MQL2SAL'));
+           
             //finding user logic begins here. finding owner between two stage dates.
            for(LeadHistory lh : listLeadHistory){
                          //MQL Stage code starts here
@@ -160,7 +163,7 @@ public class LeadVisualizerController {
                               
                               if(l.ConvertedOpportunityId!=null){
                                   opp = true;
-                                  o = [select id,StageName,OwnerId from opportunity where id=:l.ConvertedOpportunityId limit 1];
+                                  o = [select id,StageName,OwnerId,createddate,closedate from opportunity where id=:l.ConvertedOpportunityId limit 1];
                               }
                               
                               if(o.OwnerId!=null){
@@ -178,23 +181,35 @@ public class LeadVisualizerController {
                               for(UserRole r :[select id from UserRole where name LIKE 'Accou%']){
                                   RoleList.add(r.id);
                               }
+                              
+                              System.debug('the lead owner is'+l.ownerid);
+                              
                               leadOwner = [select id,name from user where id=:l.Ownerid AND UserRoleId IN:RoleList limit 1];
+                              
+                              System.debug('Lead owner list is here'+leadOwner);
                               
                               if(leadOwner.size()>0){
                                   if(leadowner[0].name!=null){
                                       if(OwnerOfMQL==null){
+                                          
                                           OwnerOfMQL=leadOwner[0].Name;
+                                          System.debug('the first condition is here'+OwnerofMQL);
                                       }
-                                      if(OwnerOfSAL==null && (l.Stage__c=='SAL' || l.Stage__c=='SQL' || l.Stage__c=='SDL')){
+                                      if(OwnerOfSAL==null){
                                           OwnerOfSAL=leadOwner[0].Name;
+                                          System.debug('the second condition is here'+OwnerofSAL);
                                       }
-                                      if(OwnerOfSQL==null && (l.Stage__c=='SQL' || l.Stage__c=='SDL' ||(l.Rejected__c==true && l.Stage__c=='SRL' && mql==true)) ){
+                                      if(OwnerOfSQL==null){
                                           OwnerOfSQL=leadOwner[0].Name;
+                                          System.debug('the third condition is here'+OwnerofSQL);
                                       }
                                   
                                   }
                               }
                              
+           }catch(Exception e){
+           
+           }
            
       }        
 }

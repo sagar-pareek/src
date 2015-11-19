@@ -32,10 +32,15 @@
             rendered="{!CanMarkAsLost}"
             action="{!UrlFor('/apex/InputOpportunityLostReason', null, ['id' = Opportunity.Id])}" />
 
-        <apex:commandButton title="Opportunity is won."
+     <!--   <apex:commandButton title="Opportunity is won."
             value="Won"
             rendered="{!CanMarkAsWon}"
-            action="{!MarkAsWon}" />
+            action="{!MarkAsWon}" /> -->
+            
+        <apex:commandButton title="Opportunity is Won."
+            value="Won"
+            rendered="{!CanMarkAsWon}"
+            action="{!UrlFor('/apex/InputOpportunityWonReason', null, ['id' = Opportunity.Id])}" />    
         
           
         <apex:commandButton title="Update Instance details."

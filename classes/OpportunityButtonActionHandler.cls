@@ -3,6 +3,9 @@ public without sharing abstract class OpportunityButtonActionHandler
     protected Opportunity opportunity;
     
     public String lostReason {get; set;}
+    public String lostDetails {get;set;}
+    public String wonReason{get;set;}
+    public String wonDetails{get;set;}
 
     public OpportunityButtonActionHandler()
     {
@@ -41,7 +44,7 @@ public without sharing abstract class OpportunityButtonActionHandler
         opportunity.CloseDate = Date.today();
         opportunity.ClosedBy__c = 'Agent';
         opportunity.LostReason__c = lostReason;
-
+        opportunity.KA_Closed_Lost_Details__c = lostDetails;
         update opportunity;
 
         return Util.RedirectTo(getOpportunityId());
@@ -52,8 +55,9 @@ public without sharing abstract class OpportunityButtonActionHandler
         opportunity.StageName = OpportunityStage.WON;
         opportunity.WonDate__c = Date.today();
         opportunity.CloseDate = Date.today();
-		opportunity.ClosedBy__c = 'Agent';
-
+        opportunity.ClosedBy__c = 'Agent';
+        opportunity.KA_Closed_Won_Details__c = wondetails;
+        opportunity.KA_Closed_Won_Reason__c = wonreason;
         update opportunity;
 
         return Util.RedirectTo(getOpportunityId());
@@ -72,5 +76,10 @@ public without sharing abstract class OpportunityButtonActionHandler
     public List <SelectOption> GetLostReasonList()
     {
         return Util.GetPicklistValues(opportunity, 'LostReason__c');
+    }
+    
+    public List <SelectOption> GetWonReasonList()
+    {
+        return Util.GetPicklistValues(opportunity, 'KA_Closed_Won_Reason__c');
     }
 }

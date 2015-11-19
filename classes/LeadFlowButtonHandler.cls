@@ -1,36 +1,16 @@
 public without sharing abstract class LeadFlowButtonHandler
 {
     ApexPages.StandardController LeadController;
-    
-    public List<ActivityHistory>leadTaskList = new List<ActivityHistory>();
-   
-    
-    
-    public boolean flagUnresponsive{get;set;}    
+        
     protected Lead lead;
 
     protected User user;
 
     public LeadFlowButtonHandler(ApexPages.StandardController controller)
     {
-        flagUnresponsive = false;
         LeadController = controller;
         lead = LeadDataAccess.getLeadById(getLeadId());
         user = UserDataAccess.GetCurrentUser();
-        
-        for (lead l :[select (select ActivityType,IsTask from ActivityHistories ) from Lead where id=:GetLeadId()]){
-            for(ActivityHistory ah :l.ActivityHistories){
-                System.debug('The activity type is'+ah.ActivityType);
-                if(ah.ActivityType=='Other' || ah.ActivityType=='Call' || ah.ActivityType=='1_'){
-                    leadTaskList.add(ah);
-                }           
-                
-            }
-            
-            }
-        if(leadTaskList.size()<2){
-            flagUnresponsive = true;        
-        }
     }
 
     protected Id GetLeadId()
@@ -109,32 +89,16 @@ public without sharing abstract class LeadFlowButtonHandler
 
         return Util.RedirectTo(GetLeadId());
     }
-    
-    public PageReference CannotMarkLeadUnresponsive()
-    {
-        PageReference pg = new PageReference('/'+getLeadId());
-        return pg;
-        
-    }
-    
+
     public PageReference MarkLeadUnresponsive()
     {
-            
-        
-            
-            
-            
-                lead.Status = LeadStatus.UNRESPONSIVE;
-                lead.StatusLastUpdatedDate__c = Date.today();
-                lead.StatusToUnresponsiveDate__c = Date.today();
-        
-                update lead;
-        
-                return Util.RedirectTo(GetLeadId());
-            
-            
-            
-            
+        lead.Status = LeadStatus.UNRESPONSIVE;
+        lead.StatusLastUpdatedDate__c = Date.today();
+        lead.StatusToUnresponsiveDate__c = Date.today();
+
+        update lead;
+
+        return Util.RedirectTo(GetLeadId());
     }
 
     public PageReference MarkLeadResponsive()

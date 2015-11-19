@@ -1,22 +1,12 @@
-<apex:page standardController="Lead" extensions="LeadButtonRenderer" id="leadButtonWorkflowPage">
+<apex:page standardController="Lead" extensions="LeadButtonRenderer">
 
     <style>
         input.btn { margin-right: 5px; }
         body { display: flex; }
     </style>
-    <script type="text/javaScript">
-    	function unresponsiveErrorMessage(){
-            if({!flagUnresponsive}){
-        		alert('One call and one email is required before marking this lead as unresponsive.');
-                cannotmarkUnresponsive();
-        	}
-            else{
-            	markUnresponsive();
-            }
-        }
-    </script>
+    
     <apex:form target="_top" style="margin:auto; margin-left: calc(30% + 2px);">
-		
+
         <apex:commandButton title="Accept the lead." 
             id="AcceptOpenLead"
             value="Accept" 
@@ -65,13 +55,12 @@
             action="{!MarkLeadInterested}" 
             rendered="{!CanMarkLeadInterested}"
             disabled="{!QualificationAnsweresAreInvalid}" />
-		<apex:actionFunction name="cannotmarkUnresponsive" action="{!CannotMarkLeadUnresponsive}"/> 
-        <apex:actionFunction name="markUnresponsive" action="{!MarkLeadUnresponsive}" />
+
         <apex:commandButton title="Mark lead unresponsive." 
             id="MarkLeadUnresponsive"
             value="Unresponsive" 
-            rendered="{!CanMarkLeadUnresponsive}" 
-            onclick="unresponsiveErrorMessage()" reRender="leadButtonWorkflowPage" />
+            action="{!MarkLeadUnresponsive}" 
+            rendered="{!CanMarkLeadUnresponsive}" />
 
         <apex:commandButton title="Mark lead responsive." 
             id="MarkLeadResponsive"

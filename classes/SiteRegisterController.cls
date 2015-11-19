@@ -22,8 +22,8 @@ public with sharing class SiteRegisterController {
     public PageReference registerUser() {
         // it's okay if password is null - we'll send the user a random password in that case
         if (!isValidPassword()) {
-        	ApexPages.Message msg = new ApexPages.Message(ApexPages.Severity.ERROR, Label.site.passwords_dont_match);
-        	ApexPages.addMessage(msg);
+            ApexPages.Message msg = new ApexPages.Message(ApexPages.Severity.ERROR, Label.site.passwords_dont_match);
+            ApexPages.addMessage(msg);
             return null;
         }    
         User u = new User();
@@ -35,7 +35,7 @@ public with sharing class SiteRegisterController {
 
         // lastName is a required field on user, but if it isn't specified, we'll default it to the username
         String userId = Site.createPortalUser(u, accountId, password);
-        if (userId != null) { 
+       /* if (userId != null) { 
             if (password != null && password.length() > 1) {
                 return Site.login(username, password, null);
             }
@@ -44,7 +44,7 @@ public with sharing class SiteRegisterController {
                 page.setRedirect(true);
                 return page;
             }
-        }
+        } */
         return null;
     }
 }

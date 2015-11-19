@@ -1,16 +1,19 @@
 @isTest
 public class AccountDataAccessTest
 {
+
+    
+   
     public static TestMethod void GetFirstAccountByNameAndOwner()
     {
         Account account = new Account(
             name = 'someone@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account;
 
-        Account foundAccount = AccountDataAccess.FirstByNameAndOwner('someone@mail.com', '00510000004s2Hz');
+        Account foundAccount = AccountDataAccess.FirstByNameAndOwner('someone@mail.com', '00510000003NltV');
 
         System.assert(account.Id == foundAccount.Id);
     }
@@ -20,14 +23,14 @@ public class AccountDataAccessTest
     {
         Account account1 = new Account(
             name = 'someone1@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account1;
         
         Account account2 = new Account(
             name = 'someone2@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account2;
@@ -45,84 +48,84 @@ public class AccountDataAccessTest
     {
         Account account1 = new Account(
             name = 'someone1@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account1;
         
         Account account2 = new Account(
             name = 'someone2@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account2;
         
         Account account3 = new Account(
             name = 'someone3@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account3;
         
         Account account4 = new Account(
             name = 'someone4@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account4;
         
         Account account5 = new Account(
             name = 'someone5@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account5;
         
         Account account6 = new Account(
             name = 'someone6@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account6;
         
              Account account7 = new Account(
             name = 'someone7@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account7;
         
         Account account8 = new Account(
             name = 'someone8@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account8;
         
         Account account9 = new Account(
             name = 'someone9@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account9;
         
         Account account10 = new Account(
             name = 'someone10@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account10;
         
         Account account11 = new Account(
             name = 'someone11@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
 
         insert account11;
         
         Account account12 = new Account(
             name = 'someone12@mail.com',
-            OwnerId = '00510000004s2Hz'
+            OwnerId = '00510000003NltV'
         );
         
         insert account12;
@@ -151,7 +154,7 @@ public class AccountDataAccessTest
     {
         try
         {
-            AccountDataAccess.FirstByNameAndOwner('someone@mail.com', '00510000004s2Hz');
+            AccountDataAccess.FirstByNameAndOwner('someone@mail.com', '00510000003NltV');
         }
         catch(UnderflowException e)
         {

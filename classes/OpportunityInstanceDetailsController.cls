@@ -6,10 +6,7 @@ public without sharing class OpportunityInstanceDetailsController extends Opport
     {
         opportunityValue = opportunity;
 
-        if(opportunityValue.KA_TrialExpiryDate__c == null)
-        {
-            opportunityValue.KA_TrialExpiryDate__c = DateTime.now();
-        }
+        if(opportunityValue.KA_TrialExpiryDate__c == null){ opportunityValue.KA_TrialExpiryDate__c = DateTime.now(); }
     }
 
     public PageReference UpdateInstance()

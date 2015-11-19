@@ -40,10 +40,7 @@ public without sharing class TerritoryDataAccess
             
             return region;
         }
-        catch(QueryException nullResultException)
-        {
-            throw new UnderflowException('No region exists by country code ' + lead.CountryCode);
-        }
+        catch(QueryException nullResultException){ throw new UnderflowException('No region exists by country code ' + lead.CountryCode); }
     }
 
     /**
@@ -62,10 +59,7 @@ public without sharing class TerritoryDataAccess
 
             return association;
         }
-        catch(QueryException associationDoesNotExist)
-        {
-            throw new UnderflowException('No association found between User and Territory');
-        }
+        catch(QueryException associationDoesNotExist) { throw new UnderflowException('No association found between User and Territory'); }
     }
     
     /**
@@ -91,10 +85,7 @@ public without sharing class TerritoryDataAccess
 
            return [SELECT Id, Name, DeveloperName FROM Territory2 WHERE Id IN :pivotIds];
         }
-        catch(QueryException nullResultException)
-        {
-            throw new UnderflowException('User is not associated with any Territory');
-        }
+        catch(QueryException nullResultException) { throw new UnderflowException('User is not associated with any Territory'); }
     }
     
     /**
@@ -119,10 +110,7 @@ public without sharing class TerritoryDataAccess
             
             return territoryPivots;
         }
-        catch(QueryException nullResultException)
-        {
-            throw new UnderflowException('No association records exists for Territory ' + territory.Name + ' with Code ' + territory.DeveloperName);
-        }
+        catch(QueryException nullResultException) { throw new UnderflowException('No association records exists for Territory ' + territory.Name + ' with Code ' + territory.DeveloperName); }
     }
 
     /**
@@ -138,21 +126,18 @@ public without sharing class TerritoryDataAccess
         try
         {
             UserTerritory2Association pivot = [SELECT User.Id, User.KA_Weightage__c, User.KA_LeadCounter__c, RoleInTerritory2, Territory2.Id
-            	FROM UserTerritory2Association
-	            WHERE (User.Id = :user.Id and Territory2.Id = :territory.id and User.IsActive = true)
-	            ORDER BY User.KA_Weightage__c DESC LIMIT 1];
+                FROM UserTerritory2Association
+                WHERE (User.Id = :user.Id and Territory2.Id = :territory.id and User.IsActive = true)
+                ORDER BY User.KA_Weightage__c DESC LIMIT 1];
 
-			if((! RoleName.SeniorRoles().contains(pivot.RoleInTerritory2)) && pivot.User.KA_Weightage__c < 1)
-			{
-				throw new ErrorException('You have an assignment weightage of 0, weightage of 1 or more is required.');
-			}
+        /*  if((! RoleName.SeniorRoles().contains(pivot.RoleInTerritory2)) && pivot.User.KA_Weightage__c < 1)
+            {
+                throw new ErrorException('You have an assignment weightage of 0, weightage of 1 or more is required.');
+            } */
 
             return pivot;
         }
-        catch(QueryException pivotNotFound)
-        {
-            throw new UnderflowException('User does not exist in region ' + territory.Name);
-        }
+        catch(QueryException pivotNotFound) { throw new UnderflowException('User does not exist in region ' + territory.Name); }
     }
 
     public static String GetUserRole(User user, Territory2 territory)
@@ -176,10 +161,7 @@ public without sharing class TerritoryDataAccess
 
             return new Set <Territory2> (countries);
         }
-        catch(QueryException cannotFetchCountries)
-        {
-            return new Set <Territory2> ();
-        }
+        catch(QueryException cannotFetchCountries) { return new Set <Territory2> (); }
     }
 
     public static Set <Territory2> GetCountriesInRegion(List <Territory2> regions)
@@ -198,10 +180,7 @@ public without sharing class TerritoryDataAccess
 
             return new Set <Territory2> (countries);
         }
-        catch(QueryException cannotFetchcountries)
-        {
-            return new Set <Territory2> ();
-        }
+        catch(QueryException cannotFetchcountries){ return new Set <Territory2> (); }
     }
 
     public static List <Territory2> GetAllCountries()

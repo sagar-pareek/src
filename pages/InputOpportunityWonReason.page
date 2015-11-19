@@ -1,0 +1,24 @@
+<apex:page standardController="Opportunity" extensions="OpportunityButtonRenderer" docType="html-5.0" >
+    <style>
+        label { margin-right: 5px; display: inline-block; width: 150px; vertical-aligh: top; }
+        .requiredInput, .condRequiredInput { display: inline-block; height: initial !important; }
+        td.dataCol { width: 100%; }
+    </style>
+    <apex:form id="markOpportunityWonForm">
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Mark As Won" action="{!MarkAsWon}"/>
+            </apex:pageBlockButtons>
+            <apex:outputLabel value="Reason for Won" />
+            <apex:selectList multiselect="false" size="1" value="{!wonReason}" required="true">
+                <apex:selectOptions value="{!WonReasonList}" />
+            </apex:selectList><br/><br/>
+            <apex:outputLabel value="Closed Won Detail (What did you do that enabled you to win? What different actions, behaviors, or circumstances led to us winning this Opportunity? How are these action, behaviors, and circumstances different from deals that you have lost? What can you to make them repeatable on future opportunities?)" />
+            <apex:inputTextarea value="{!wonDetails}" required="true" rows="7" />
+          
+            
+            
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

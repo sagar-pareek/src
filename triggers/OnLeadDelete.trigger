@@ -23,19 +23,13 @@ trigger OnLeadDelete on Lead (before delete)
         clause = ' lead';
     }
 
-    if(System.isBatch() && !Test.isRunningTest())
-    {
-        Webhook.TriggerSlackAlert(UserInfo.getName() + ' deleted ' + size + clause + ' in bulk mode.');
-    }
+    if(System.isBatch() && !Test.isRunningTest()){Webhook.TriggerSlackAlert(UserInfo.getName() + ' deleted ' + size + clause + ' in bulk mode.');}
     
-    if(leads.size() > 10 && !Test.isRunningTest())
-    {
-        Webhook.TriggerSlackAlert(UserInfo.getName() + ' deleted ' + size + clause + ', cannot show all the details for more than 10 records.');
+    if(leads.size() > 10 && !Test.isRunningTest()){Webhook.TriggerSlackAlert(UserInfo.getName() + ' deleted ' + size + clause + ', cannot show all the details for more than 10 records.');
     }
     else
     {
-        if(!Test.isRunningTest()){
-            Webhook.TriggerSlackAlert(Slack.BuildPayload('', UserInfo.getName() + ' deleted a lead', leads));
+        if(!Test.isRunningTest()){Webhook.TriggerSlackAlert(Slack.BuildPayload('', UserInfo.getName() + ' deleted a lead', leads));
         }
     }
 }

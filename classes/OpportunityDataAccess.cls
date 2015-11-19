@@ -10,17 +10,14 @@ public without sharing class OpportunityDataAccess
         }
 
         try
-        {
+         {
             Opportunity opportunity = [SELECT Id, StageName, CloseDate, Amount, Type, KA_TrialExpiryDate__c, Product__c, Plan__c From Opportunity WHERE Id = :opportunityId];
 
             opportunityCache.put(opportunityId, opportunity);
 
             return opportunity;
-        }
-        catch(QueryException noResultFound)
-        {
-            throw new UnderflowException('Cannot find the opportunity with Id ' + opportunityId);
-        }
+       }
+        catch(QueryException noResultFound){  throw new UnderflowException('Cannot find the opportunity with Id ' + opportunityId);}  
     }
 
     public static boolean OpportunityHasQuote(Id opportunityId)

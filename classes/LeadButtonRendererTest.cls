@@ -36,7 +36,79 @@ public class LeadButtonRendererTest
         System.assert(LeadStage.SAL == [SELECT Stage__c FROM Lead WHERE Id = :lead.Id].Stage__c);
         System.assert(response.getRedirect());
     }
+    
+    public static TestMethod void GetCanMarkLeadInterested()
+    {
+        LeadButtonRenderer handler = createHandler();
+        handler.GetCanMarkLeadInterested();
 
+        
+    }
+    
+    public static TestMethod void GetCanAcceptInterestedLead(){
+        LeadButtonRenderer handler = createHandler();
+        handler.GetCanAcceptInterestedLead();
+        
+    }
+    
+   
+    
+    
+    
+    
+    public static TestMethod void GetCanRejectInterestedLead(){
+         LeadButtonRenderer handler = createHandler();
+         handler.GetCanRejectInterestedLead();
+        
+    }
+    
+    public static TestMethod void GetCanReturnInterestedLead(){
+         LeadButtonRenderer handler = createHandler();
+         handler.GetCanReturnInterestedLead();
+         
+        
+    }
+    
+    
+    public static TestMethod void AcceptInterestedLead(){
+        LeadButtonRenderer handler = createHandler();
+        handler.AcceptInterestedLead();
+    }     
+    
+      
+    
+    
+    
+    public static TestMethod void GetCanConvertToOpportunity(){
+         LeadButtonRenderer handler = createHandler();
+         handler.GetCanConvertToOpportunity();
+        
+    }
+    
+    public static TestMethod void  GetCanRejectQualifiedLead(){
+        LeadButtonRenderer handler = createHandler();
+        handler.GetCanRejectQualifiedLead();
+        
+    }
+    
+     public static TestMethod void GetCanCloseQualifiedLead(){
+          LeadButtonRenderer handler = createHandler();
+          handler.GetCanCloseQualifiedLead();
+     }
+     
+     public static TestMethod void GetCanUpdateInstanceDetails(){
+             LeadButtonRenderer handler = createHandler();
+             handler.GetCanUpdateInstanceDetails();
+     
+     }
+     
+    public static TestMethod void GetQualificationAnsweresAreInvalid(){
+             LeadButtonRenderer handler = createHandler();
+             handler.GetQualificationAnsweresAreInvalid();
+    }
+    
+   
+    
     public static TestMethod void RejectOpenLeads()
     {
         LeadButtonRenderer handler = createHandler();
@@ -84,7 +156,7 @@ public class LeadButtonRendererTest
         System.assert(response.getRedirect());
     }
 
-	/** // Removing this function because of changes in SF API summer'15
+    /** // Removing this function because of changes in SF API summer'15
     public static TestMethod void AcceptInterestedLead()
     {
         LeadButtonRenderer handler = createHandler();
@@ -94,7 +166,7 @@ public class LeadButtonRendererTest
         System.assert(LeadStage.SQL == changed.Stage__c);
         System.assert(response.getRedirect());
     }
-	*/
+    */
 
     public static TestMethod void RejectInterestedLead()
     {
@@ -155,11 +227,11 @@ public class LeadButtonRendererTest
         System.assert(response.getRedirect());
     }
     
-    /** // disabling this method because of changes in summer'15 release
+    
     public static TestMethod void ReopenClosedLead()
     {
         createMock();
-		lead.put('Stage__c', LeadStage.SDL);
+        lead.put('Stage__c', LeadStage.SDL);
         lead.put('Status', LeadStatus.NURTURE);
         update lead;
         
@@ -171,7 +243,7 @@ public class LeadButtonRendererTest
         System.assertEquals(LeadStage.SQL, changed.Stage__c);
         System.assert(response.getRedirect());
     }
-    */
+   
 
     public static TestMethod void CanAcceptOpenLeads()
     {

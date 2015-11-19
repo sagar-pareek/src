@@ -3,37 +3,49 @@ public without sharing class ConvertToOpportunityController extends LeadFlowButt
     public Opportunity opportunity { get; set; }
     public List <SelectOption> allCompetitors { get; set; }
     public List <String> opportunityCompetitors { get; set; }
-
+    public Account acc;
     public ConvertToOpportunityController(ApexPages.StandardController controller)
     {
         super(controller);
         opportunity = new Opportunity();
-   		opportunity.CloseDate = Date.today().addDays(30);
+        opportunity.CloseDate = Date.today().addDays(30);
         allCompetitors = GetListOfCompetitors();
+        acc = new Account();
     }
 
     public PageReference ConvertToOpportunity()
     {
-		Database.LeadConvert converter = new Database.LeadConvert();
+        Database.LeadConvert converter = new Database.LeadConvert();
 
-		converter.setLeadId(lead.Id);
-		converter.setConvertedStatus(LeadStatus.CONVERTED);
-		converter.setDoNotCreateOpportunity(false);
-		Database.Leadconvertresult conversion = Database.convertLead(converter);
+        converter.setLeadId(lead.Id);
+        converter.setConvertedStatus(LeadStatus.CONVERTED);
+        converter.setDoNotCreateOpportunity(false);
+        Database.Leadconvertresult conversion = Database.convertLead(converter);
         if(Test.isRunningTest()){
-        	opportunity.id = conversion.getOpportunityId();
+            opportunity.id = conversion.getOpportunityId();
         }
-		Id opportunityId = conversion.getOpportunityId();
-		Opportunity newOpportunity = OpportunityDataAccess.GetOpportunityById(opportunityId);
+        Id opportunityId = conversion.getOpportunityId();
+        Opportunity newOpportunity = OpportunityDataAccess.GetOpportunityById(opportunityId);
         
-		newOpportunity.StageName   = OpportunityStage.VALUE_PROPOSITION;
-		newOpportunity.Amount      = opportunity.Amount;
-		newOpportunity.CloseDate   = opportunity.CloseDate;
+        newOpportunity.StageName   = OpportunityStage.VALUE_PROPOSITION;
+        newOpportunity.Amount      = opportunity.Amount;
+        newOpportunity.CloseDate   = opportunity.CloseDate;
         newOpportunity.Type        = opportunity.Type;
         newOpportunity.Plan__c     = opportunity.Plan__c;
         newOpportunity.Product__c  = opportunity.Product__c;
 
-		update newOpportunity;
+        update newOpportunity;
+        if(conversion.getaccountId()!=null){
+            List<Lead>leadList = new List<Lead>();
+            leadList =[select id,KA_Domain__c from Lead where id=:lead.id limit 1];
+            
+            if(leadList.size()>0 && leadList!=null){
+                acc.id = conversion.getAccountId();
+                if(leadList[0].KA_Domain__c!=null){ acc.KA_Domain__c = leadList[0].KA_Domain__c; }
+                update acc;
+            }
+        }
+        
         
         SetOpportunityCompetitors(newOpportunity, opportunityCompetitors);
 

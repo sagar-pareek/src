@@ -21,10 +21,10 @@ public without sharing class OpportunityButtonRenderer extends OpportunityButton
 
     public boolean GetCanMarkAsWon()
     {
-		User currentUser = UserDataAccess.GetCurrentUser();
+        User currentUser = UserDataAccess.GetCurrentUser();
         
         return currentUser.Profile.Name == 'System Administrator' && ( 
-        	OpportunityStage.REVIEW_AND_NEGOTIATION.equals(opportunity.StageName) ||
+            OpportunityStage.REVIEW_AND_NEGOTIATION.equals(opportunity.StageName) ||
             OpportunityStage.PROPOSAL_AND_QUOTE.equals(opportunity.StageName)
         );
     }

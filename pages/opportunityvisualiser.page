@@ -1,4 +1,4 @@
-<apex:page standardController="lead" extensions="LeadVisualizerController" sidebar="false" showHeader="false">
+<apex:page standardController="Opportunity" extensions="OpportunityVisualizerController" sidebar="false" showHeader="false">
     <apex:form >
     <html>
         <head>
@@ -80,12 +80,12 @@
                         Owner &amp; Age
                     </td>
                     <td>
-                        <!-- MQL Owner -->
+                      <!-- MQL Owner -->
                        <apex:outputPanel rendered="{!if(ownerOfMQL!=null ,true,false)}">{!ownerOfMQL} </apex:outputPanel>
                        <apex:outputPanel rendered="{!if(ownerOfMQL!=null && l.DaysInMQL__c!=null ,true,false)}"> -</apex:outputPanel>
                        <apex:outputPanel rendered="{!if(l.DaysInMQL__c!=null  ,true,false)}">  {!l.DaysInMQL__c} days </apex:outputPanel>
                     </td>
-                    <td class="{!if(l.Stage__c=='SAL' || l.Stage__c=='SQL' || l.Stage__c=='SDL' || o.StageName=='Demo' || o.StageName=='Proposal/Price Quote' || o.StageName=='Negotiation/Review' || (l.Rejected__c==true && l.Stage__c=='SRL' && l.Unresponsive__c==true),'activated','deactivated' )}">
+                    <td class="{!if(l.Stage__c=='SAL' || l.Stage__c=='SQL' || l.Stage__c=='SDL' || o.StageName=='Demo' || o.StageName=='Proposal/Price Quote' || o.StageName=='Negotiation/Review','activated','deactivated' )}">
                         <!--SAL Owner -->
                          
                          <apex:outputPanel rendered="{!if(ownerOfSAL!=null,true,false)}"> {!ownerOfSAL} </apex:outputPanel>
@@ -98,9 +98,12 @@
                          <apex:outputPanel rendered="{!if(ownerOfSQL!=null && l.DaysInSQL__c!=null ,true,false)}"> -</apex:outputPanel>
                          <apex:outputPanel rendered="{!if(l.DaysInSQL__c!=null,true,false)}"> {!l.DaysInSQL__c} days </apex:outputPanel>
                     </td>
-                    <td class="{!if(l.Stage__c=='SDL' || o.StageName=='Demo' || o.StageName=='Proposal/Price Quote' || o.StageName=='Negotiation/Review' || o.StageName=='Value Proposition','activated','deactivated' )}">
+                    <td class="{!if(l.Stage__c=='SDL' || o.StageName=='Demo' || o.StageName=='Proposal/Price Quote' || o.StageName=='Negotiation/Review' || o.StageName=='Value Proposition' || o.StageName='Closed Won' || o.StageName='Closed Lost','activated','deactivated' )}">
                         <!--Opportunity Owner --->
-                        <apex:outputPanel rendered="{!if(l.DaysInSRL__c!=null && opportunityOwner.Name!=null ,true,false)}"> {!opportunityOwner.Name} -  days </apex:outputPanel>
+                        <apex:outputPanel rendered="{!if(opportunityOwner.Name!=null ,true,false)}"> {!opportunityOwner.Name} - &nbsp; </apex:outputPanel>
+                           <!-- <apex:outputPanel rendered="{!if(o.StageName!='Closed Won' || o.StageName!='Closed Lost'  ,true,false)}"> {!TODAY () - DATEVALUE(o.CreatedDate)} days</apex:outputPanel>
+                                <apex:outputPanel rendered="{!if(o.StageName=='Closed Won' || o.StageName=='Closed Lost'  ,true,false)}"> {!TODAY () - o.CloseDate} days</apex:outputPanel> -->
+                        <apex:outputText value="{!IF(BEGINS(o.StageName,'Closed'), TODAY () - o.CloseDate, TODAY () - DATEVALUE(o.CreatedDate))}"></apex:outputText> days
                         
                     </td>
                     <td class="{!if(sub==false,'deactivated','')}">
@@ -113,43 +116,43 @@
                    <td class="left-pane">
                         Status/Stage
                     </td>
-                    <td class="{!if((l.Status=='Open' || l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') || (l.Rejected__c==true && l.Stage__c=='SRL') && (l.Stage__c='SAL'|| l.Stage__c='SQL' || l.Stage__c='MQL' ),'green',if(l.Status=='Unresponsive' && l.Stage__c='SAL','red',if(l.Stage__c='SDL' || l.Stage__c='SRL','red','')))}">
+                    <td class="{!if(((l.Status=='Open' || l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') || (l.Rejected__c==true && l.Stage__c=='SRL') && (l.Stage__c='SAL'|| l.Stage__c='SQL' || l.Stage__c='MQL' ) )&& (o.StageName!='Closed Lost'),'green',if(l.Status=='Unresponsive' && l.Stage__c='SAL','red',if(l.Stage__c='SDL' || l.Stage__c='SRL' || o.StageName=='Closed Lost' ,'red','')))}">
                         Open
                     </td>
                     <td>
                         <!--  inner table for SAL sub levels -->
                         <table style="width:100%;" class="table table-bordered">
                             <tr>
-                                <td class="{!if((l.Status=='Open' || l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') && (l.Stage__c='SAL'|| l.Stage__c='SQL' ),'green',if(l.Rejected__c==true && l.Stage__c=='SRL' && l.Unresponsive__c==true,'red',if(l.Stage__c='SDL' || l.Unresponsive__c==true,'red','deactivated')))}">
+                                <td class="{!if(((l.Status=='Open' || l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') && (l.Stage__c='SAL'|| l.Stage__c='SQL' )) && (o.StageName!='Closed Lost'),'green',if(l.Status=='Unresponsive' && l.Stage__c='SAL','red',if(l.Stage__c='SDL' || o.StageName=='Closed Lost' ,'red','deactivated')))}">
                                     Open
                                 </td>
-                                <td class="{!if((l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') && (l.Stage__c='SAL'|| l.Stage__c='SQL' || l.Status=='Converted'),'green',if(l.Rejected__c==true && l.Stage__c=='SRL' && l.Unresponsive__c==true,'red',if(l.Stage__c='SDL' || l.Unresponsive__c==true,'red','deactivated')))}">
+                                <td class="{!if(((l.Status=='Contacted' || l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted') && (l.Stage__c='SAL'|| l.Stage__c='SQL' || l.Status=='Converted')) && (o.StageName!='Closed Lost'),'green',if(l.Status=='Unresponsive' && l.Stage__c='SAL','red',if(l.Stage__c='SDL' || o.StageName=='Closed Lost' ,'red','deactivated')))}">
                                     Contacted
                                 </td>
-                                <td class="{!if((l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted')  && (l.Stage__c='SAL'|| l.Stage__c='SQL'),'green',if(l.Stage__c='SDL','red','deactivated'))}">
+                                <td class="{!if(((l.Status=='Interested' || l.Status=='Qualified' || l.Status=='Converted')  && (l.Stage__c='SAL'|| l.Stage__c='SQL')) && (o.StageName!='Closed Lost'),'green',if(l.Stage__c='SDL' || o.StageName=='Closed Lost' ,'red','deactivated'))}">
                                     Interested
                                 </td>
                             </tr>
                         </table>
                         <!-- inner table ends -->
                     </td>
-                    <td class="{!if((l.Status=='Qualified' || l.Status=='Converted')  && (l.Stage__c='SQL'),'green',if(l.Stage__c='SDL','red',if(sql==false,'deactivated','')))}">
+                    <td class="{!if(((l.Status=='Qualified' || l.Status=='Converted')  && (l.Stage__c=='SQL')) && (o.StageName!='Closed Lost'),'green',if(l.Stage__c=='SDL' || o.StageName=='Closed Lost' ,'red',if(sql==false,'deactivated','')))}">
                         Qualified
                     </td>
                     <td>
                         <!--  inner table for opportunity sub levels -->
                         <table style="width:100%;" class="table table-bordered">
                             <tr>
-                                <td class="{!if(o.StageName='Value Proposition' || o.StageName='Demo' || o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review','green','deactivated')}">
+                                <td class="{!if(o.StageName='Value Proposition' || o.StageName='Demo' || o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review'|| o.StageName='Closed Won','green', if(o.StageName=='Closed Lost','red','deactivated'))}">
                                     Value Proposition
                                 </td>
-                                <td class="{!if( o.StageName='Demo' || o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review','green','deactivated')}">
+                                <td class="{!if( o.StageName='Demo' || o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review' || o.StageName='Closed Won','green',if(o.StageName=='Closed Lost','red','deactivated'))}">
                                     Demo
                                 </td>
-                                <td class="{!if( o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review','green','deactivated')}">
+                                <td class="{!if( o.StageName='Proposal/Price Quote' || o.StageName='Negotiation/Review' || o.StageName='Closed Won','green',if(o.StageName=='Closed Lost','red','deactivated'))}">
                                     Proposal
                                 </td>
-                                <td class="{!if(o.StageName='Negotiation/Review','green','deactivated')}">
+                                <td class="{!if(o.StageName='Negotiation/Review' || o.StageName='Closed Won' ,'green',if(o.StageName=='Closed Lost','red',if(o.StageName=='Closed Lost','red','deactivated')))}">
                                     Negotiation
                                 </td>
                             </tr>
@@ -172,29 +175,24 @@
                         <!--inner table for SAL rejection row -->
                         <table style="width:100%;" class="table table-bordered">
                             <tr>
-                                <td class="{!if(l.Rejected__c==true && l.Stage__c=='SRL' && l.Unresponsive__c!=true && (mql==true || l.Status=='Nurture'),'red','deactivated')}">
+                                <td class="{!if(l.Rejected__c==true && l.Stage__c=='SRL' && (mql==true || l.Status=='Nurture'),'red','deactivated')}">
                                     SRL    
                                 </td>
-                                <td class="{!if((l.Status=='Unresponsive' || l.Unresponsive__c==true) && (l.Stage__c='SAL' || l.Stage__c='SRL'),'red','deactivated')}">
+                                <td class="{!if(l.Status=='Unresponsive' && l.Stage__c='SAL','red','deactivated')}">
                                     Unresponsive
                                 </td>
                             </tr>
                         </table>
                         <!-- inner table ends-->
                     </td>
-                    <td class="{!if(l.Rejected__c==true && l.Stage__c=='SRL' && l.Unresponsive__c==true,'red','deactivated')}">
+                    <td class="{!if(l.Rejected__c==true && l.Stage__c=='SAL' && l.Status=='Unresponsive','red','deactivated')}">
                         SRL
                     </td>
                     <td class="{!if(l.Stage__c=='SDL','red','deactivated')}">
                         SDL
                     </td>
-                    <td class="{!if(sub==false,'deactivated','')}">
+                    <td class="{!if(sub==false && o.StageName!='Closed Lost','deactivated',if(o.StageName=='Closed Lost','red','deactivated'))}">
                         Lost
-                    </td>
-                </tr>
-                <tr style="display:{!if(l.Stage__c=='SRL' && l.Unresponsive__c==true && l.Status=='Purchased','','none')}">
-                    <td class="green" colspan="7">
-                       <center> PURCHASED DIRECTLY </center>
                     </td>
                 </tr>
             </table>
